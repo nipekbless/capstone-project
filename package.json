@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc -p .",
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest",
         "start": "node -r esm ./build/index.js",
         "dev": "nodemon ./src/index.ts"
     },
@@ -31,6 +31,7 @@
         "@types/passport-jwt": "^3.0.8",
         "@types/passport-local": "^1.0.35",
         "@types/qrcode": "^1.5.0",
+        "@types/redis": "^4.0.11",
         "bcrypt": "^5.1.0",
         "body-parser": "^1.20.2",
         "cloudinary": "^1.37.2",
@@ -45,6 +46,7 @@
         "passport-jwt": "^4.0.1",
         "passport-local": "^1.0.0",
         "qrcode": "^1.5.3",
+        "redis": "^4.6.7",
         "shortid": "^2.2.16",
         "ts-node": "^10.9.1",
         "typescript": "^5.0.4"
@@ -52,8 +54,12 @@
     "devDependencies": {
         "@types/body-parser": "^1.19.2",
         "@types/dotenv": "^8.2.0",
+        "@types/jest": "^29.5.2",
         "@types/shortid": "^0.0.29",
         "esm": "^3.2.25",
-        "types": "file:../../../../nanoid"
+        "jest": "^29.5.0",
+        "ts-jest": "^29.1.0",
+        "types": "file:../../../../nanoid",
+        "typescript": "^5.0.4"
     }
 }

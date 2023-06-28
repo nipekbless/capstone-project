@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import ShortURL  from '../model/url.model';
 import { validateURL } from "../utils/validateUrl";
 import { customAlphabet } from "nanoid";
+import redis from "redis";
+
+
 
 // Generate custom ID
 const nanoid = customAlphabet(
