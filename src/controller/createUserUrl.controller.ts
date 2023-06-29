@@ -40,7 +40,7 @@ export async function createUserUrl(req: Request, res: Response) {
         await user.save();
       }
 
-      return res.json(completeUrl);
+      return res.json({shortUrl:completeUrl});
     }
     res.send("Invalid URL");
   } catch (e) {
