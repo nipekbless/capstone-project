@@ -9,7 +9,7 @@ import limiter from "../middleware/rateLimiting";
 import passport from "passport"
 
 function routes(app: Express) {
-  app.get("/", (req: Request, res: Response) => {
+  app.get("/", limiter, (req: Request, res: Response) => {
     return res.send("App is okay");
   });
 

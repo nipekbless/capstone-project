@@ -1,12 +1,5 @@
 import Redis from 'redis';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-const REDIS_USERNAME: string = process.env.REDIS_USERNAME || 'default';
-const REDIS_PORT: string | number = process.env.REDIS_PORT || 6379;
-const REDIS_HOST: string = process.env.REDIS_HOST || '127.0.0.1';
-const REDIS_PASSWORD: string | null = process.env.REDIS_PASSWORD || null;
+import { promisify } from 'util';
 
 class Cache {
   private redis: Redis.RedisClientType | null;
@@ -18,7 +11,7 @@ class Cache {
   async connect(): Promise<void> {
     try {
       this.redis = Redis.createClient({
-        url: `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT}`,
+        // Redis connection options
       });
 
       this.redis.on('connect', () => {
@@ -31,6 +24,19 @@ class Cache {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async get(key: string): Promise<string | null> {
+    const getAsync = promisify(this.redis!.get).bind(this.redis!);
+    return getAsync(key);
+  }
+
+  async set(key: string, value: string): Promise<void> {
+    this.redis!.set(key, value);
+  }
+
+  async delete(key: string): Promise<void> {
+    this.redis!.del(key);
   }
 }
 

@@ -5,6 +5,7 @@ import db from './db'
 import configurePassport from "./middleware/authentication";
 import passport from "passport";
 import authRouter from "./routes/auth";
+import cors from "cors"
 
 
 const app = express();
@@ -12,6 +13,7 @@ const PORT = config.server.port;
 app.use(express.json())
 app.use(passport.initialize())
 configurePassport(passport);
+app.use(cors())
 
 app.use("/" , authRouter)
 

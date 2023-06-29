@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
-import ShortURL  from '../model/url.model';
+import ShortURL from "../model/url.model";
 import { validateURL } from "../utils/validateUrl";
 import { customAlphabet } from "nanoid";
-import redis from "redis";
-
-
+import Cache from "../config/redisConfig";
 
 // Generate custom ID
 const nanoid = customAlphabet(
@@ -23,11 +21,25 @@ export async function shortenUrl(req: Request, res: Response) {
     const isValidUrl = validateURL(originalURL);
 
     if (isValidUrl) {
+      // Check if the URL is already cached
+      const cachedUrl = await Cache.get(originalURL);
+
+      if (cachedUrl) {
+        return res.send(cachedUrl);
+      }
+
       //shorten url and return to client
       const shortid = nanoid();
       const completeUrl = `${hostUrl}/${shortid}`;
-      const shortenedUrl = new ShortURL({ originalURL, shortUrl: completeUrl, "shortId": shortid});
+      const shortenedUrl = new ShortURL({
+        originalURL,
+        shortUrl: completeUrl,
+        shortId: shortid,
+      });
       await shortenedUrl.save();
+
+      // Cache the shortened URL for future use
+      await Cache.set(originalURL, completeUrl);
 
       return res.send(completeUrl);
     }
