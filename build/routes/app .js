@@ -18,7 +18,7 @@ function routes(app) {
     app.post("/Api/shorten", rateLimiting_1.default, createShortUrl_1.shortenUrl);
     app.post("/Api/shortenurl", passport_1.default.authenticate("jwt", { session: false }), createUserUrl_controller_1.createUserUrl);
     app.get("/:url", redirect_controller_1.redirectURL);
-    app.post("/qrcode", passport_1.default.authenticate("jwt", { session: false }), genQrCode_controller_1.generateQrCode);
+    app.post("/Api/qrcode", passport_1.default.authenticate("jwt", { session: false }), genQrCode_controller_1.generateQrCode);
     app.put("/customurl/:shortId", passport_1.default.authenticate("jwt", { session: false }), customShortUrl_controller_1.customShortUrl);
     app.get("/Api/getuserurls", passport_1.default.authenticate("jwt", { session: false }), getUserUrls_controller_1.getUserURLs);
     // // Route for serving the HTML file

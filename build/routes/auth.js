@@ -18,7 +18,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_model_1 = __importDefault(require("../model/user.model"));
 const authRouter = express_1.default.Router();
 // Signup route
-authRouter.post("/signup", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+authRouter.post("/Api/signup", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { first_name, last_name, email, password } = req.body;
         // Check if the user already exists
@@ -36,7 +36,7 @@ authRouter.post("/signup", (req, res, next) => __awaiter(void 0, void 0, void 0,
     }
 }));
 // Signin route
-authRouter.post("/signin", (req, res, next) => {
+authRouter.post("/Api/signin", (req, res, next) => {
     passport_1.default.authenticate("login", { session: false }, (err, user, info) => {
         if (err) {
             return next(err);

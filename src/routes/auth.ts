@@ -6,7 +6,7 @@ import userModel from "../model/user.model";
 const authRouter = express.Router();
 
 // Signup route
-authRouter.post("/signup", async (req: Request, res: Response, next: NextFunction) => {
+authRouter.post("/Api/signup", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { first_name, last_name, email, password } = req.body;
 
@@ -27,7 +27,7 @@ authRouter.post("/signup", async (req: Request, res: Response, next: NextFunctio
 });
 
 // Signin route
-authRouter.post("/signin", (req: Request, res: Response, next: NextFunction) => {
+authRouter.post("/Api/signin", (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate("login", { session: false }, (err: Error, user: any, info: any) => {
     if (err) {
       return next(err);

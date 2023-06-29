@@ -19,7 +19,7 @@ function routes(app: Express) {
 
   app.get("/:url", redirectURL);
 
-  app.post("/qrcode",passport.authenticate("jwt", { session: false }), generateQrCode);
+  app.post("/Api/qrcode",passport.authenticate("jwt", { session: false }), generateQrCode);
 
   app.put("/customurl/:shortId",passport.authenticate("jwt", { session: false }), customShortUrl);
 
