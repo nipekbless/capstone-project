@@ -26,7 +26,7 @@ function createUserUrl(req, res) {
             const { originalURL } = req.body;
             console.log(originalURL);
             const userDetails = req.user ? req.user : null;
-            const hostUrl = "http://localhost:2020";
+            const hostUrl = "https://trim-q1wc.onrender.com";
             // check if url is valid
             const isValidUrl = (0, validateUrl_1.validateURL)(originalURL);
             if (isValidUrl) {

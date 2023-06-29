@@ -24,7 +24,7 @@ function shortenUrl(req, res) {
             //get original url from request body
             const { originalURL } = req.body;
             console.log(originalURL);
-            const hostUrl = "http://localhost:2020";
+            const hostUrl = "https://trim-q1wc.onrender.com";
             // check if url is valid
             const isValidUrl = (0, validateUrl_1.validateURL)(originalURL);
             if (isValidUrl) {
@@ -37,7 +37,7 @@ function shortenUrl(req, res) {
                     shortId: shortid,
                 });
                 yield shortenedUrl.save();
-                return res.send(completeUrl);
+                return res.json({ completeUrl });
             }
             res.send("Invalid URL");
         }

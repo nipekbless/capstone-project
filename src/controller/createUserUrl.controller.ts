@@ -20,7 +20,7 @@ export async function createUserUrl(req: Request, res: Response) {
 
     const userDetails = req.user ? req.user : null;
 
-    const hostUrl = "http://localhost:2020";
+    const hostUrl = "https://trim-q1wc.onrender.com";
 
     // check if url is valid
     const isValidUrl = validateURL(originalURL);

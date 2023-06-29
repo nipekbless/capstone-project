@@ -19,7 +19,7 @@ function redirectURL(req, res) {
         try {
             const { url } = req.params;
             //find corresponding original url from database
-            const hostUrl = "http://localhost:2020";
+            const hostUrl = "https://trim-q1wc.onrender.com";
             let shortenedUrl = yield url_model_1.default.findOne({ shortUrl: `${hostUrl}/${url}` });
             if (!shortenedUrl) {
                 return res.status(404).json({ error: "Short URL not found" });

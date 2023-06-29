@@ -18,7 +18,7 @@ function customShortUrl(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const targetId = req.params;
         const customUrl = req.body.customUrl;
-        const hostUrl = "http://localhost:2020";
+        const hostUrl = "https://trim-q1wc.onrender.com";
         try {
             // search the database for target short URL data and replace with the custom url
             const updatedShortUrl = yield url_model_1.default.findOneAndUpdate(targetId, { shortUrl: `${hostUrl}/${customUrl}`, shortId: customUrl }, { new: true });

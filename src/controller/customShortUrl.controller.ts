@@ -4,7 +4,7 @@ import shortUrl from "../model/url.model";
 export async function customShortUrl(req: Request, res: Response) {
   const targetId = req.params;
   const customUrl = req.body.customUrl;
-  const hostUrl = "http://localhost:2020";
+  const hostUrl = "https://trim-q1wc.onrender.com";
 
   try {
     // search the database for target short URL data and replace with the custom url
