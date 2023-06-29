@@ -20,7 +20,7 @@ export async function createUserUrl(req: Request, res: Response) {
 
     const userDetails = req.user ? req.user : null;
 
-    const hostUrl = "https://trim-q1wc.onrender.com";
+    const hostUrl = "trim-q1wc.onrender.com";
 
     // check if url is valid
     const isValidUrl = validateURL(originalURL);
@@ -40,7 +40,7 @@ export async function createUserUrl(req: Request, res: Response) {
         await user.save();
       }
 
-      return res.send(completeUrl);
+      return res.json(completeUrl);
     }
     res.send("Invalid URL");
   } catch (e) {
