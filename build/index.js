@@ -10,11 +10,13 @@ const db_1 = __importDefault(require("./db"));
 const authentication_1 = __importDefault(require("./middleware/authentication"));
 const passport_1 = __importDefault(require("passport"));
 const auth_1 = __importDefault(require("./routes/auth"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const PORT = config_1.config.server.port;
 app.use(express_1.default.json());
 app.use(passport_1.default.initialize());
 (0, authentication_1.default)(passport_1.default);
+app.use((0, cors_1.default)());
 app.use("/", auth_1.default);
 // Serve static files
 // app.use(express.static(path.join(__dirname, 'public')));

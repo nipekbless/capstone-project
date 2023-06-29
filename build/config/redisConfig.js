@@ -13,12 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const redis_1 = __importDefault(require("redis"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const REDIS_USERNAME = process.env.REDIS_USERNAME || 'default';
-const REDIS_PORT = process.env.REDIS_PORT || 6379;
-const REDIS_HOST = process.env.REDIS_HOST || '127.0.0.1';
-const REDIS_PASSWORD = process.env.REDIS_PASSWORD || null;
+const util_1 = require("util");
 class Cache {
     constructor() {
         this.redis = null;
@@ -27,7 +22,7 @@ class Cache {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 this.redis = redis_1.default.createClient({
-                    url: `redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT}`,
+                // Redis connection options
                 });
                 this.redis.on('connect', () => {
                     console.log('Redis connected');
@@ -39,6 +34,22 @@ class Cache {
             catch (error) {
                 console.log(error);
             }
+        });
+    }
+    get(key) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const getAsync = (0, util_1.promisify)(this.redis.get).bind(this.redis);
+            return getAsync(key);
+        });
+    }
+    set(key, value) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.redis.set(key, value);
+        });
+    }
+    delete(key) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.redis.del(key);
         });
     }
 }

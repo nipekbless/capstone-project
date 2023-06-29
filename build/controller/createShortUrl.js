@@ -16,6 +16,7 @@ exports.shortenUrl = void 0;
 const url_model_1 = __importDefault(require("../model/url.model"));
 const validateUrl_1 = require("../utils/validateUrl");
 const nanoid_1 = require("nanoid");
+const redisConfig_1 = __importDefault(require("../config/redisConfig"));
 // Generate custom ID
 const nanoid = (0, nanoid_1.customAlphabet)("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 3);
 function shortenUrl(req, res) {
@@ -28,11 +29,22 @@ function shortenUrl(req, res) {
             // check if url is valid
             const isValidUrl = (0, validateUrl_1.validateURL)(originalURL);
             if (isValidUrl) {
+                // Check if the URL is already cached
+                const cachedUrl = yield redisConfig_1.default.get(originalURL);
+                if (cachedUrl) {
+                    return res.send(cachedUrl);
+                }
                 //shorten url and return to client
                 const shortid = nanoid();
                 const completeUrl = `${hostUrl}/${shortid}`;
-                const shortenedUrl = new url_model_1.default({ originalURL, shortUrl: completeUrl, "shortId": shortid });
+                const shortenedUrl = new url_model_1.default({
+                    originalURL,
+                    shortUrl: completeUrl,
+                    shortId: shortid,
+                });
                 yield shortenedUrl.save();
+                // Cache the shortened URL for future use
+                yield redisConfig_1.default.set(originalURL, completeUrl);
                 return res.send(completeUrl);
             }
             res.send("Invalid URL");

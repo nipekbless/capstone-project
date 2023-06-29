@@ -12,7 +12,7 @@ const createUserUrl_controller_1 = require("../controller/createUserUrl.controll
 const rateLimiting_1 = __importDefault(require("../middleware/rateLimiting"));
 const passport_1 = __importDefault(require("passport"));
 function routes(app) {
-    app.get("/", (req, res) => {
+    app.get("/", rateLimiting_1.default, (req, res) => {
         return res.send("App is okay");
     });
     app.post("/Api/shorten", rateLimiting_1.default, createShortUrl_1.shortenUrl);
