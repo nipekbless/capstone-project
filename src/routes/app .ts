@@ -6,7 +6,6 @@ import { customShortUrl } from "../controller/customShortUrl.controller";
 import { getUserURLs } from "../controller/getUserUrls.controller";
 import { createUserUrl } from "../controller/createUserUrl.controller";
 import limiter from "../middleware/rateLimiting";
-import path from "path";
 import passport from "passport"
 
 function routes(app: Express) {
@@ -14,7 +13,7 @@ function routes(app: Express) {
     return res.send("App is okay");
   });
 
-  app.post("/Api/shorten", shortenUrl);
+  app.post("/Api/shorten", limiter, shortenUrl);
 
   app.post("/Api/shortenurl", passport.authenticate("jwt", { session: false }), createUserUrl);
 
@@ -27,7 +26,7 @@ function routes(app: Express) {
   app.get("/Api/getuserurls", passport.authenticate("jwt", { session: false }), getUserURLs)
 
   // // Route for serving the HTML file
-  // app.get('/', (req, res) => {
+  // app.get('/home', (req, res) => {
   //   const indexPath = path.join(__dirname, '../../public/index.html');
   //   res.sendFile(indexPath);
   // });
