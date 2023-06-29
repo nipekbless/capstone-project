@@ -6,7 +6,7 @@
     "scripts": {
         "build": "tsc",
         "test": "jest",
-        "start": "node -r esm ./build/index.js",
+        "start": "node ./build/index.js",
         "dev": "nodemon ./src/index.ts"
     },
     "repository": {
