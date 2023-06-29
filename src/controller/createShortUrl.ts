@@ -21,12 +21,6 @@ export async function shortenUrl(req: Request, res: Response) {
     const isValidUrl = validateURL(originalURL);
 
     if (isValidUrl) {
-      // Check if the URL is already cached
-      const cachedUrl = await Cache.get(originalURL);
-
-      if (cachedUrl) {
-        return res.send(cachedUrl);
-      }
 
       //shorten url and return to client
       const shortid = nanoid();
@@ -36,10 +30,7 @@ export async function shortenUrl(req: Request, res: Response) {
         shortUrl: completeUrl,
         shortId: shortid,
       });
-      await shortenedUrl.save();
-
-      // Cache the shortened URL for future use
-      await Cache.set(originalURL, completeUrl);
+      await shortenedUrl.save()
 
       return res.send(completeUrl);
     }
