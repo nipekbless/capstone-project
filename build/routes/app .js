@@ -9,10 +9,9 @@ const genQrCode_controller_1 = require("../controller/genQrCode.controller");
 const customShortUrl_controller_1 = require("../controller/customShortUrl.controller");
 const getUserUrls_controller_1 = require("../controller/getUserUrls.controller");
 const createUserUrl_controller_1 = require("../controller/createUserUrl.controller");
-const path_1 = __importDefault(require("path"));
 const passport_1 = __importDefault(require("passport"));
 function routes(app) {
-    app.get("/test", (req, res) => {
+    app.get("/", (req, res) => {
         return res.send("App is okay");
     });
     app.post("/Api/shorten", createShortUrl_1.shortenUrl);
@@ -21,11 +20,11 @@ function routes(app) {
     app.post("/qrcode", passport_1.default.authenticate("jwt", { session: false }), genQrCode_controller_1.generateQrCode);
     app.put("/customurl/:shortId", passport_1.default.authenticate("jwt", { session: false }), customShortUrl_controller_1.customShortUrl);
     app.get("/Api/getuserurls", passport_1.default.authenticate("jwt", { session: false }), getUserUrls_controller_1.getUserURLs);
-    // Route for serving the HTML file
-    app.get('/', (req, res) => {
-        const indexPath = path_1.default.join(__dirname, '../../public/index.html');
-        res.sendFile(indexPath);
-    });
+    // // Route for serving the HTML file
+    // app.get('/', (req, res) => {
+    //   const indexPath = path.join(__dirname, '../../public/index.html');
+    //   res.sendFile(indexPath);
+    // });
     // Error handling
     app.use((err, req, res, next) => {
         console.error("Rate limiting error:", err);

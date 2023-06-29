@@ -10,7 +10,7 @@ import path from "path";
 import passport from "passport"
 
 function routes(app: Express) {
-  app.get("/test", (req: Request, res: Response) => {
+  app.get("/", (req: Request, res: Response) => {
     return res.send("App is okay");
   });
 
@@ -26,11 +26,11 @@ function routes(app: Express) {
 
   app.get("/Api/getuserurls", passport.authenticate("jwt", { session: false }), getUserURLs)
 
-  // Route for serving the HTML file
-  app.get('/', (req, res) => {
-    const indexPath = path.join(__dirname, '../../public/index.html');
-    res.sendFile(indexPath);
-  });
+  // // Route for serving the HTML file
+  // app.get('/', (req, res) => {
+  //   const indexPath = path.join(__dirname, '../../public/index.html');
+  //   res.sendFile(indexPath);
+  // });
   
   // Error handling
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
