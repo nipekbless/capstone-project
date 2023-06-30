@@ -6,7 +6,15 @@
   "info": {
     "title": "scisors",
     "version": "1.0",
-    "description": ""
+    "description": "New users can shorten url. Only registered users are allowed to perform additional operations on the application. These include:\n\n1) Create short url\n2) Get a list of your url(s)\n3) know the number of clicks for each url\n4) Know time link was last visited\n5) Know link refering sources\n6) Generate QR code",
+    "summary": "Scisors is an API built to help users shorten long URLs",
+    "contact": {
+      "name": "Adenipekun",
+      "email": "blessingadenipekun@gmail.com"
+    },
+    "license": {
+      "identifier": "MIT"
+    }
   },
   "servers": [
     {
