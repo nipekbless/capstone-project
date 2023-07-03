@@ -44,15 +44,15 @@ export default function configurePassport(passport: passport.PassportStatic): vo
       async (email, password, done) => {
         try {
           const user = await UserModel.findOne({ email });
-          console.log(user);
+          
           if (!user) {
-            return done(null, false, { message: "User not found" });
+            return done(null, false, { message: "Invalid email or password" });
           }
 
           const validate = await user.isValidPassword(password);
 
           if (!validate) {
-            return done(null, false, { message: "Wrong password" });
+            return done(null, false, { message: "Invalid email or password" });
           }
 
           return done(null, user, { message: "Logged in successfully" });

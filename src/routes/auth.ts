@@ -13,7 +13,7 @@ authRouter.post("/Api/signup", async (req: Request, res: Response, next: NextFun
     // Check if the user already exists
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ message: "User already exists" });
+      return res.status(409).json({ error: "User already exists" });
     }
 
     // Create a new user
@@ -34,21 +34,28 @@ authRouter.post("/Api/signin", (req: Request, res: Response, next: NextFunction)
     }
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ error: "Invalid email or password" });
     }
-
+   console.log(user)
+   
     req.login(user, { session: false }, (error) => {
       if (error) {
         return next(error);
       }
 
       // Generate a JWT token
-      const body = { _id: user._id, email: user.email }
+      const body = { _id: user._id, email: user.email };
       const token = jwt.sign({ user: body }, process.env.JWT_SECRET || "default-secret");
 
       res.json({ token });
     });
   })(req, res, next);
+});
+
+// Error handler
+authRouter.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal server error" });
 });
 
 export default authRouter;
