@@ -24,7 +24,7 @@ authRouter.post("/Api/signup", (req, res, next) => __awaiter(void 0, void 0, voi
         // Check if the user already exists
         const existingUser = yield user_model_1.default.findOne({ email });
         if (existingUser) {
-            return res.status(409).json({ message: "User already exists" });
+            return res.status(409).json({ error: "User already exists" });
         }
         // Create a new user
         const newUser = new user_model_1.default({ first_name, last_name, email, password });
@@ -42,8 +42,9 @@ authRouter.post("/Api/signin", (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            return res.status(401).json({ message: "Invalid email or password" });
+            return res.status(401).json({ error: "Invalid email or password" });
         }
+        console.log(user);
         req.login(user, { session: false }, (error) => {
             if (error) {
                 return next(error);
@@ -54,5 +55,10 @@ authRouter.post("/Api/signin", (req, res, next) => {
             res.json({ token });
         });
     })(req, res, next);
+});
+// Error handler
+authRouter.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
 });
 exports.default = authRouter;

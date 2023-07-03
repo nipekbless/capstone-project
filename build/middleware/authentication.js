@@ -41,13 +41,12 @@ function configurePassport(passport) {
     passport.use("login", new passport_local_1.Strategy({ usernameField: "email", passwordField: "password" }, (email, password, done) => __awaiter(this, void 0, void 0, function* () {
         try {
             const user = yield user_model_1.default.findOne({ email });
-            console.log(user);
             if (!user) {
-                return done(null, false, { message: "User not found" });
+                return done(null, false, { message: "Invalid email or password" });
             }
             const validate = yield user.isValidPassword(password);
             if (!validate) {
-                return done(null, false, { message: "Wrong password" });
+                return done(null, false, { message: "Invalid email or password" });
             }
             return done(null, user, { message: "Logged in successfully" });
         }
