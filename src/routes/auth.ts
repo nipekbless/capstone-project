@@ -34,10 +34,10 @@ authRouter.post("/Api/signin", (req: Request, res: Response, next: NextFunction)
     }
 
     if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
    console.log(user)
-   
+
     req.login(user, { session: false }, (error) => {
       if (error) {
         return next(error);
@@ -46,10 +46,30 @@ authRouter.post("/Api/signin", (req: Request, res: Response, next: NextFunction)
       // Generate a JWT token
       const body = { _id: user._id, email: user.email };
       const token = jwt.sign({ user: body }, process.env.JWT_SECRET || "default-secret");
-
-      res.json({ token });
+       res.json({ token });
     });
   })(req, res, next);
+});
+
+// Reset password route
+authRouter.post("/Api/resetpassword", async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    // Find the user by email
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found!!" });
+    }
+
+    // Update the user's password
+    user.password = newPassword;
+    await user.save();
+
+    res.json({ message: "Password reset successful" });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Error handler
