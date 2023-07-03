@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
+import { Request, Response } from "express"
 import ShortURL from "../model/url.model";
 import { validateURL } from "../utils/validateUrl";
 import { customAlphabet } from "nanoid";
 import Cache from "../config/redisConfig";
+
 
 // Generate custom ID
 const nanoid = customAlphabet(
@@ -15,7 +16,7 @@ export async function shortenUrl(req: Request, res: Response) {
     //get original url from request body
     const { originalURL } = req.body;
     console.log(originalURL);
-    const hostUrl = "https://trim-q1wc.onrender.com";
+    const hostUrl = "trim-q1wc.onrender.com";
 
     // check if url is valid
     const isValidUrl = validateURL(originalURL);
