@@ -42,7 +42,7 @@ authRouter.post("/Api/signin", (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            return res.status(401).json({ error: "Invalid email or password" });
+            return res.status(401).json({ message: "Invalid email or password" });
         }
         console.log(user);
         req.login(user, { session: false }, (error) => {
@@ -56,6 +56,24 @@ authRouter.post("/Api/signin", (req, res, next) => {
         });
     })(req, res, next);
 });
+// Reset password route
+authRouter.post("/Api/resetpassword", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, newPassword } = req.body;
+        // Find the user by email
+        const user = yield user_model_1.default.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: "User not found!!" });
+        }
+        // Update the user's password
+        user.password = newPassword;
+        yield user.save();
+        res.json({ message: "Password reset successful" });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
 // Error handler
 authRouter.use((err, req, res, next) => {
     console.error(err);
