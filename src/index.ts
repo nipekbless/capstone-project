@@ -1,4 +1,4 @@
-import express, { Request, Response ,NextFunction } from "express"
+import express from "express"
 import {config} from './config/config'
 import routes from './routes/app ';
 import db from './db'

@@ -34,7 +34,7 @@ authRouter.post("/Api/signin", (req: Request, res: Response, next: NextFunction)
     }
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     req.login(user, { session: false }, (error) => {
