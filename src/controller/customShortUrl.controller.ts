@@ -17,7 +17,7 @@ export async function customShortUrl(req: Request, res: Response) {
       return res.status(404).json({ error: "Short URL not found" });
     }
 
-    return res.json(updatedShortUrl);
+    return res.json(updatedShortUrl.shortUrl);
   } catch (e) {
     console.log(e);
     res.status(500).json({ e: "internal error" });
