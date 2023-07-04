@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateAndSaveQRCode = void 0;
+exports.generateAndUploadQRCode = void 0;
 const cloudinary = __importStar(require("cloudinary"));
 const qrCode = __importStar(require("qrcode"));
 const fs_1 = require("fs");
@@ -47,8 +47,8 @@ cloudinary.v2.config({
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
 });
-//generate and save qrCode
-function generateAndSaveQRCode(text) {
+// Generate and save QR code, upload to Cloudinary, and return the secure URL
+function generateAndUploadQRCode(text) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const qrCodeImageData = yield qrCode.toBuffer(text);
@@ -61,7 +61,7 @@ function generateAndSaveQRCode(text) {
                 fileStream.on("error", reject);
                 fileStream.end();
             });
-            // upload QR code to cloudinary
+            // Upload QR code to Cloudinary
             const uploadResult = yield cloudinary.v2.uploader.upload(outputFilePath, {
                 folder: "qrcodes",
                 public_id: "qrcode",
@@ -69,10 +69,13 @@ function generateAndSaveQRCode(text) {
                 resource_type: "image",
             });
             console.log("QR code saved to Cloudinary:", uploadResult.secure_url);
+            // Return the secure URL of the uploaded QR code
+            return uploadResult.secure_url;
         }
         catch (error) {
             console.error("QR code generation and upload failed:", error);
+            throw error;
         }
     });
 }
-exports.generateAndSaveQRCode = generateAndSaveQRCode;
+exports.generateAndUploadQRCode = generateAndUploadQRCode;

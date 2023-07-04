@@ -2,6 +2,7 @@ import * as cloudinary from "cloudinary";
 import * as qrCode from "qrcode";
 import { createWriteStream } from "fs";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 // Configure Cloudinary
@@ -11,10 +12,8 @@ cloudinary.v2.config({
   api_secret: process.env.API_SECRET,
 });
 
-//generate and save qrCode
-export async function generateAndSaveQRCode(
-  text: string
-): Promise<void> {
+// Generate and save QR code, upload to Cloudinary, and return the secure URL
+export async function generateAndUploadQRCode(text: string): Promise<string> {
   try {
     const qrCodeImageData = await qrCode.toBuffer(text);
     const outputFilePath = "qrcode.png";
@@ -28,7 +27,7 @@ export async function generateAndSaveQRCode(
       fileStream.end();
     });
 
-    // upload QR code to cloudinary
+    // Upload QR code to Cloudinary
     const uploadResult = await cloudinary.v2.uploader.upload(outputFilePath, {
       folder: "qrcodes",
       public_id: "qrcode",
@@ -37,7 +36,11 @@ export async function generateAndSaveQRCode(
     });
 
     console.log("QR code saved to Cloudinary:", uploadResult.secure_url);
+
+    // Return the secure URL of the uploaded QR code
+    return uploadResult.secure_url;
   } catch (error) {
     console.error("QR code generation and upload failed:", error);
+    throw error;
   }
 }

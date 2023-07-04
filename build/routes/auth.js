@@ -27,8 +27,7 @@ authRouter.post("/Api/signup", (req, res, next) => __awaiter(void 0, void 0, voi
             return res.status(409).json({ error: "User already exists" });
         }
         // Create a new user
-        const newUser = new user_model_1.default({ first_name, last_name, email, password });
-        yield newUser.save();
+        const newUser = yield user_model_1.default.create({ first_name, last_name, email, password });
         res.status(201).json({ message: "User created successfully" });
     }
     catch (error) {
@@ -44,7 +43,6 @@ authRouter.post("/Api/signin", (req, res, next) => {
         if (!user) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
-        console.log(user);
         req.login(user, { session: false }, (error) => {
             if (error) {
                 return next(error);
@@ -63,7 +61,7 @@ authRouter.post("/Api/resetpassword", (req, res, next) => __awaiter(void 0, void
         // Find the user by email
         const user = yield user_model_1.default.findOne({ email });
         if (!user) {
-            return res.status(404).json({ message: "User not found!!" });
+            return res.status(404).json({ message: "User not found" });
         }
         // Update the user's password
         user.password = newPassword;

@@ -17,8 +17,7 @@ authRouter.post("/Api/signup", async (req: Request, res: Response, next: NextFun
     }
 
     // Create a new user
-    const newUser = new userModel({ first_name, last_name, email, password });
-    await newUser.save();
+    const newUser = await userModel.create({ first_name, last_name, email, password });
 
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
@@ -36,7 +35,6 @@ authRouter.post("/Api/signin", (req: Request, res: Response, next: NextFunction)
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-   console.log(user)
 
     req.login(user, { session: false }, (error) => {
       if (error) {
@@ -46,7 +44,8 @@ authRouter.post("/Api/signin", (req: Request, res: Response, next: NextFunction)
       // Generate a JWT token
       const body = { _id: user._id, email: user.email };
       const token = jwt.sign({ user: body }, process.env.JWT_SECRET || "default-secret");
-       res.json({ token });
+
+      res.json({ token });
     });
   })(req, res, next);
 });
@@ -59,7 +58,7 @@ authRouter.post("/Api/resetpassword", async (req: Request, res: Response, next: 
     // Find the user by email
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "User not found!!" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Update the user's password
