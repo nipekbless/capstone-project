@@ -16,7 +16,7 @@ export async function shortenUrl(req: Request, res: Response) {
     //get original url from request body
     const { originalURL } = req.body;
     console.log(originalURL);
-    const hostUrl = "trim-q1wc.onrender.com";
+    const hostUrl = "https://trim-q1wc.onrender.com";
 
     // check if url is valid
     const isValidUrl = validateURL(originalURL);
@@ -33,7 +33,7 @@ export async function shortenUrl(req: Request, res: Response) {
       });
       await shortenedUrl.save()
 
-      return res.json({completeUrl});
+      return res.json({completeUrl:`trim-q1wc.onrender.com/${shortid}` });
     }
     res.send("Invalid URL");
   } catch (e) {

@@ -63,7 +63,7 @@ authRouter.post("/Api/resetpassword", (req, res, next) => __awaiter(void 0, void
         // Find the user by email
         const user = yield user_model_1.default.findOne({ email });
         if (!user) {
-            return res.status(404).json({ error: "User not found!!" });
+            return res.status(404).json({ message: "User not found!!" });
         }
         // Update the user's password
         user.password = newPassword;
