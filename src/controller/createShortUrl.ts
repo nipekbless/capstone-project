@@ -35,7 +35,7 @@ export async function shortenUrl(req: Request, res: Response) {
 
       return res.json({completeUrl:`trim-q1wc.onrender.com/${shortid}` });
     }
-    res.send("Invalid URL");
+    res.json({message:"Invalid URL"});
   } catch (e) {
     console.log(e);
     res.status(500).json({ e: "internal error" });
