@@ -39,7 +39,7 @@ function shortenUrl(req, res) {
                 yield shortenedUrl.save();
                 return res.json({ completeUrl: `trim-q1wc.onrender.com/${shortid}` });
             }
-            res.send("Invalid URL");
+            res.json({ message: "Invalid URL" });
         }
         catch (e) {
             console.log(e);

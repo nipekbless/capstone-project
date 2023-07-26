@@ -25,3 +25,4 @@ app.listen(PORT, () => {
     (0, app_1.default)(app);
     (0, db_1.default)();
 });
+exports.default = app;
