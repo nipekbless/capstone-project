@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.shortenUrl = void 0;
 const url_model_1 = __importDefault(require("../model/url.model"));
-const validateUrl_1 = require("../utils/validateUrl");
+const validateUrl_1 = __importDefault(require("../utils/validateUrl"));
 const nanoid_1 = require("nanoid");
 // Generate custom ID
 const nanoid = (0, nanoid_1.customAlphabet)("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 3);
@@ -26,7 +26,7 @@ function shortenUrl(req, res) {
             console.log(originalURL);
             const hostUrl = "https://trim-q1wc.onrender.com";
             // check if url is valid
-            const isValidUrl = (0, validateUrl_1.validateURL)(originalURL);
+            const isValidUrl = (0, validateUrl_1.default)(originalURL);
             if (isValidUrl) {
                 //shorten url and return to client
                 const shortid = nanoid();

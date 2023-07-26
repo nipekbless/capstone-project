@@ -1,8 +1,8 @@
 import { Request, Response } from "express"
 import ShortURL from "../model/url.model";
-import { validateURL } from "../utils/validateUrl";
+import  validateURL  from "../utils/validateUrl";
 import { customAlphabet } from "nanoid";
-import Cache from "../config/redisConfig";
+
 
 
 // Generate custom ID

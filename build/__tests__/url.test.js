@@ -14,19 +14,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const index_1 = __importDefault(require("../index"));
-describe('URL', () => {
-    describe('shorten url by unauthenticated user route', () => {
-        describe('given the original url is not valid', () => {
-            it('should return error message : invalid URL', () => __awaiter(void 0, void 0, void 0, function* () {
+const morckValidUrl_1 = __importDefault(require("../utils/morckValidUrl"));
+const validateUrl_1 = __importDefault(require("../utils/validateUrl"));
+describe("URL", () => {
+    describe("shorten url by unauthenticated user route", () => {
+        describe("given the original url is not valid", () => {
+            it("should return error message : invalid URL", () => __awaiter(void 0, void 0, void 0, function* () {
                 const invalidURL = "not-a-valid-url";
                 const response = yield (0, supertest_1.default)(index_1.default)
-                    .post('/Api/shorten')
+                    .post("/Api/shorten")
                     .send({ originalURL: invalidURL });
                 expect(response.body).toHaveProperty("message");
                 expect(response.body.message).toBe("Invalid URL");
             }));
         });
-        describe('given the original url is valid', () => {
+        describe("given the original url is valid", () => {
+            it("should respond with a shortened URL", () => __awaiter(void 0, void 0, void 0, function* () {
+                const domain = "google.com";
+                const validURL = (0, morckValidUrl_1.default)(domain);
+                console.log(validURL);
+                const response = yield (0, supertest_1.default)(index_1.default)
+                    .post("/Api/shorten")
+                    .send({ originalURL: validURL })
+                    .expect(200);
+                expect((0, validateUrl_1.default)(validURL)).toBe(true);
+                expect(response.body).toHaveProperty("completeUrl");
+                expect(typeof response.body.completeUrl).toBe("string");
+                expect(response.body.completeUrl).toMatch(/trim-q1wc\.onrender\.com\/\w{3}/); // Check if the response contains the shortened URL
+            }));
         });
     });
 });

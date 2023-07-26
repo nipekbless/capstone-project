@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import shortUrl from "../model/url.model";
-import { validateURL } from "../utils/validateUrl";
+import  validateURL  from "../utils/validateUrl";
 import userModel from "../model/user.model";
 import { customAlphabet } from 'nanoid';
 
